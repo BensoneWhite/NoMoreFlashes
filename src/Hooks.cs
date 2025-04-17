@@ -1,119 +1,69 @@
-﻿using NoMoreFlashes.Changes.FlareBombModify;
+﻿using NoMoreFlashes.Changes.ElectricDeathModify;
+using NoMoreFlashes.Changes.FlareBombModify;
+using NoMoreFlashes.Changes.UnderWaterModify;
+using NoMoreFlashes.Changes.ZapCoilsModify;
 
 namespace NoMoreFlashes;
 
 public class Hooks
 {
+    //NoFlashes bool is for testing and comparing
+    public static bool NoFlashes = true;
+    public static bool Flashes = false;
+
     public static void Init()
     {
         FlareBombModify.Apply();
 
-        On.ZapCoil.DrawSprites += ZapCoil_DrawSprites;
-        On.ZapCoil.InitiateSprites += ZapCoil_InitiateSprites;
-        On.ZapCoil.AddToContainer += ZapCoil_AddToContainer;
-        On.ZapCoil.ZapFlash.DrawSprites += ZapFlash_DrawSprites;
-        On.ZapCoil.ZapFlash.InitiateSprites += ZapFlash_InitiateSprites;
+        ZapCoilsModify.Apply();
 
-        On.ElectricDeath.InitiateSprites += ElectricDeath_InitiateSprites;
-        On.ElectricDeath.DrawSprites += ElectricDeath_DrawSprites;
-        On.ElectricDeath.SparkFlash.InitiateSprites += SparkFlash_InitiateSprites;
-        On.ElectricDeath.SparkFlash.DrawSprites += SparkFlash_DrawSprites;
-        On.ElectricDeath.LightFlash.Draw += LightFlash_Draw;
+        UnderWaterModify.Apply();
 
-        On.GreenSparks.GreenSpark.DrawSprites += GreenSpark_DrawSprites;
+        ElectricDeathModify.Apply();
 
-        On.UnderwaterShock.Flash.InitiateSprites += Flash_InitiateSprites;
+        //On.GreenSparks.GreenSpark.DrawSprites += GreenSpark_DrawSprites;
 
-        On.RainCycle.Update += RainCycle_Update;
+        //On.RainCycle.Update += RainCycle_Update;
+
+        On.RainWorld.Update += RainWorld_Update;
     }
 
-    private static void ZapFlash_InitiateSprites(On.ZapCoil.ZapFlash.orig_InitiateSprites orig, ZapCoil.ZapFlash self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
+    private static void RainWorld_Update(On.RainWorld.orig_Update orig, RainWorld self)
     {
-        orig(self, sLeaser, rCam);
+        orig(self);
 
-        sLeaser.sprites[0].isVisible = false;
-        sLeaser.sprites[1].isVisible = false;
-    }
+        // Crtl+Alt+F
+        bool ctrlFlash = Input.GetKey(KeyCode.LeftControl);
+        bool FKeyFlash = Input.GetKey(KeyCode.F);
 
-    private static void ZapFlash_DrawSprites(On.ZapCoil.ZapFlash.orig_DrawSprites orig, ZapCoil.ZapFlash self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-    {
-        orig(self, sLeaser, rCam, timeStacker, camPos);
+        // Crtl+Alt+N
+        bool ctrlNoFlash = Input.GetKey(KeyCode.LeftControl);
+        bool NNoFlash = Input.GetKey(KeyCode.N);
 
-        sLeaser.sprites[0].isVisible = false;
-        sLeaser.sprites[1].isVisible = false;
-    }
+        if (ctrlFlash && FKeyFlash && !Flashes)
+        {
+            Flashes = true;
+            NoFlashes = false;
 
-    private static void ZapCoil_AddToContainer(On.ZapCoil.orig_AddToContainer orig, ZapCoil self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer newContatiner)
-    {
-        orig(self, sLeaser, rCam, newContatiner);
+            Plugin.DebugWarning(Flashes
+                ? "Flashes are now Enabled"
+                : "Flashes are Disabled");
+        }
 
-        sLeaser.sprites[0].alpha = 0f;
-    }
+        if(ctrlNoFlash && NNoFlash && !NoFlashes)
+        {
+            Flashes = false;
+            NoFlashes = true;
 
-    private static void ZapCoil_InitiateSprites(On.ZapCoil.orig_InitiateSprites orig, ZapCoil self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
-    {
-        orig(self, sLeaser, rCam);
-
-        sLeaser.sprites[0].isVisible = false;
-    }
-
-    private static void ZapCoil_DrawSprites(On.ZapCoil.orig_DrawSprites orig, ZapCoil self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-    {
-        orig(self, sLeaser, rCam, timeStacker, camPos);
-
-        sLeaser.sprites[0].isVisible = true;
-    }
-
-    private static void SparkFlash_DrawSprites(On.ElectricDeath.SparkFlash.orig_DrawSprites orig, ElectricDeath.SparkFlash self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-    {
-        orig(self, sLeaser, rCam, timeStacker, camPos);
-
-        sLeaser.sprites[0].isVisible = false;
-    }
-
-    private static void LightFlash_Draw(On.ElectricDeath.LightFlash.orig_Draw orig, ElectricDeath.LightFlash self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-    {
-        orig(self, sLeaser, rCam, timeStacker, camPos);
-
-        sLeaser.sprites[0].isVisible = false;
-    }
-
-    private static void SparkFlash_InitiateSprites(On.ElectricDeath.SparkFlash.orig_InitiateSprites orig, ElectricDeath.SparkFlash self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
-    {
-        orig(self, sLeaser, rCam);
-
-        sLeaser.sprites[0].isVisible = false;
-        sLeaser.sprites[1].isVisible = false;
-        sLeaser.sprites[2].isVisible = false;
-    }
-
-    private static void ElectricDeath_DrawSprites(On.ElectricDeath.orig_DrawSprites orig, ElectricDeath self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-    {
-        orig(self, sLeaser, rCam, timeStacker, camPos);
-
-        sLeaser.sprites[0].isVisible = false;
-        sLeaser.sprites[1].isVisible = false;
-    }
-
-    private static void ElectricDeath_InitiateSprites(On.ElectricDeath.orig_InitiateSprites orig, ElectricDeath self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
-    {
-        orig(self, sLeaser, rCam);
-
-        sLeaser.sprites[0].isVisible = true;
-        sLeaser.sprites[1].isVisible = false;
-        sLeaser.sprites[2].isVisible = false;
+            Plugin.DebugWarning(Flashes
+                ? "Flashes are now Enabled"
+                : "Flashes are Disabled");
+        }
     }
 
     private static void GreenSpark_DrawSprites(On.GreenSparks.GreenSpark.orig_DrawSprites orig, GreenSparks.GreenSpark self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
-
-        sLeaser.sprites[0].isVisible = false;
-    }
-
-    private static void Flash_InitiateSprites(On.UnderwaterShock.Flash.orig_InitiateSprites orig, UnderwaterShock.Flash self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
-    {
-        orig(self, sLeaser, rCam);
 
         sLeaser.sprites[0].isVisible = false;
     }

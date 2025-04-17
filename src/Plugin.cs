@@ -1,7 +1,7 @@
 ﻿namespace NoMoreFlashes;
 
 [BepInPlugin(GUID: MOD_ID, Name: MOD_NAME, Version: VERSION)]
-class Plugin : BaseUnityPlugin
+public class Plugin : BaseUnityPlugin
 {
     public const string AUTHORS = "BensoneWhite";
     public const string MOD_ID = "BensoneWhite.NoMoreFlashes";
@@ -10,9 +10,9 @@ class Plugin : BaseUnityPlugin
 
     public bool IsInit;
 
-    public static void LogWarning(object ex) => Logger.LogWarning(ex);
+    public static void DebugWarning(object ex) => Logger.LogWarning(ex);
 
-    public static void LogError(object ex) => Logger.LogError(ex);
+    public static void DebugError(object ex) => Logger.LogError(ex);
 
     public static new ManualLogSource Logger;
 
@@ -26,11 +26,11 @@ class Plugin : BaseUnityPlugin
             
             On.RainWorld.OnModsInit += RainWorld_OnModsInit;
 
-            LogWarning($"{MOD_NAME} is loading... {VERSION}");
+            DebugWarning($"{MOD_NAME} is loading... {VERSION}");
         }
         catch (Exception e)
         {
-            LogError(e);
+            DebugError(e);
         }
     }
 
@@ -49,7 +49,7 @@ class Plugin : BaseUnityPlugin
         }
         catch (Exception ex)
         {
-            LogError(ex);
+            DebugError(ex);
         }
     }
 }
