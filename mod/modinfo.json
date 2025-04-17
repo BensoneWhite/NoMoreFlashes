@@ -1,9 +1,9 @@
 {
   "id": "BensoneWhite.NoMoreFlashes",
   "name": "NoMoreFlashes",
-  "version": "1.0",
-  "authors": "BensoneWhite/nMoon#4835 ",
-  "description": "My eyes can see now...",
+  "version": "1.3.0",
+  "authors": "BensoneWhite",
+  "description": "Disable some anonying flashes from vanilla game like flarebombs, shock sprites, most of the underhang flashy stuff and echo distorsion",
   "requirements": [],
   "requirements_names": [],
   "checksum_override_version": true

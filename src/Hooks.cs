@@ -1,4 +1,5 @@
-﻿using NoMoreFlashes.Changes.ElectricDeathModify;
+﻿using NoMoreFlashes.Changes.EchoModify;
+using NoMoreFlashes.Changes.ElectricDeathModify;
 using NoMoreFlashes.Changes.FlareBombModify;
 using NoMoreFlashes.Changes.UnderWaterModify;
 using NoMoreFlashes.Changes.ZapCoilsModify;
@@ -21,9 +22,7 @@ public class Hooks
 
         ElectricDeathModify.Apply();
 
-        //On.GreenSparks.GreenSpark.DrawSprites += GreenSpark_DrawSprites;
-
-        //On.RainCycle.Update += RainCycle_Update;
+        EchoModify.Apply();
 
         On.RainWorld.Update += RainWorld_Update;
     }
@@ -59,20 +58,5 @@ public class Hooks
                 ? "Flashes are now Enabled"
                 : "Flashes are Disabled");
         }
-    }
-
-    private static void GreenSpark_DrawSprites(On.GreenSparks.GreenSpark.orig_DrawSprites orig, GreenSparks.GreenSpark self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-    {
-        orig(self, sLeaser, rCam, timeStacker, camPos);
-
-        sLeaser.sprites[0].isVisible = false;
-    }
-
-    private static void RainCycle_Update(On.RainCycle.orig_Update orig, RainCycle self)
-    {
-        orig(self);
-
-        self.world.game.globalRain.ScreenShake = 0.15f;
-        self.world.game.globalRain.MicroScreenShake = 0.15f;
     }
 }

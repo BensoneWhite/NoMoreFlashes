@@ -1,12 +1,12 @@
 {
   "Title": "NoMoreFlashes",
-  "Description": "This mod disables the annoying flashes from the flare bomb when activated, thanks to Moon#4835 and Fish#9000, as well as the rest of the modding community.",
+  "Description": "This mod disables some anonying flashes from vanilla game like flarebombs, shock sprites, most of the underhang flashy stuff and some echo sprites",
   "ID": "BensoneWhite.NoMoreFlashes",
-  "Version": "1.3.1",
-  "TargetGameVersion": "v1.9.06",
+  "Version": "1.3.0",
+  "TargetGameVersion": "v1.10.2",
   "Requirements": "",
   "RequirementNames": "",
-  "Authors": "BensoneWhiten/Moon#4835 ",
+  "Authors": "BensoneWhiten",
   "Visibility": "Public",
   "Tags": [
     "Game Mechanics"

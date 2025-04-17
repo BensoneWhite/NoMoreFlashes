@@ -6,7 +6,7 @@ public class Plugin : BaseUnityPlugin
     public const string AUTHORS = "BensoneWhite";
     public const string MOD_ID = "BensoneWhite.NoMoreFlashes";
     public const string MOD_NAME = "NoMoreFlashes";
-    public const string VERSION = "1.2.1";
+    public const string VERSION = "1.3.0";
 
     public bool IsInit;
 
@@ -45,7 +45,7 @@ public class Plugin : BaseUnityPlugin
 
             Hooks.Init();
 
-            MachineConnector.SetRegisteredOI(MOD_ID, optionsMenuInstance = new RemixMenu());
+            //MachineConnector.SetRegisteredOI(MOD_ID, optionsMenuInstance = new RemixMenu());
         }
         catch (Exception ex)
         {
